@@ -1,0 +1,13 @@
+TODO
+
+testare le classi in data_structure - map fatte manca la nuova lista
+scrivere contratti e il resto di entrambi
+Scrivere la lista con il raddoppiamento dell’array
+
+DOMANDE
+Per motivi di efficienza possiamo usare lo string buffer o piuttosto concateniamo stringhe?
+
+
+Casi di test.
+Due parole uguali non sono in relazione
+Due parole vuoto non sono in relazione
