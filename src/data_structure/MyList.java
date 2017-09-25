@@ -14,16 +14,18 @@ public class MyList<T> implements Iterable<T> {
 	 */
 	
 	// ATTRIBUTES
-	private T data;
-	private MyList<T> next;
+	//private T data;
+	//private MyList<T> next;
+	private Object[] list;
+	private int size;
 	
 	// CONSTRUCTOR
 	public MyList (){
-		this.data = null;
-		next = null;
+		this.list = new Object[32];
+		this.size = 0;
 	}
 	
-	// GETTERS
+	/* GETTERS
 	public T getData() {
 		return this.data;
 	}
@@ -31,63 +33,50 @@ public class MyList<T> implements Iterable<T> {
 	public MyList<T> getNext() {
 		return this.next;
 	}
+	*/
 	
 
 	public void insert (T value) {
-		MyList<T> newElt = new MyList<T>();
-		
-		MyList<T> current = this;
-		while ( current.data != null) {
-			current = current.next;
+		if ( this.size == this.list.length ) {
+			Object[] bigger = new Object[size/2*3]; 
+			for (int i = 0; i < this.size; i++) {
+				bigger[i] = this.list[i];
+			}
+			this.list = bigger;
 		}
-		current.data = value;
-		current.next = newElt;
+		this.list[size] = value;
+		this.size ++;
 	}
 	
 	
 	public int size () {
-		int length = 0;
-		MyList<T> current = this;
-		while ( current.data != null) {
-			length ++;
-			current = current.next;
-		}
-		return length;
+		return this.size;
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public int getIndex (T value) {
-		int index = 0;
-		MyList<T> current = this;
-		while ( current.data != value) {
-			if (current.data == null) {
-				// end of the MyList
-				throw new NoSuchElementException();
+		for (int i=0; i< this.list.length; i++) {
+			if ( (T) this.list[i] == value) {
+				return i;
 			}
-			current = current.next;
-			index ++;
 		}
-		return index;
+		// end of the MyList
+		throw new NoSuchElementException();
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public T elementAt(int index) {
-		MyList<T> current = this;
-		for (int i = 0; i < index; i++) {
-			current = current.next;
+		if ( index >= this.list.length ) {
+			throw new NoSuchElementException();
 		}
-		return current.data;
+		return (T) this.list[index];
 	}
 	
-	
-	public boolean hasNext() {
-		if ( this.data == null) {
-			return false;
-		}
-		return true;
-	}
-	
-	
+	/*
+	 * TODO cerchiamo di eliminarlo questo
+	 * 
 	public boolean contains(T elt) {
 		MyList<T> current = this;
 		while(current.hasNext()) {
@@ -98,39 +87,21 @@ public class MyList<T> implements Iterable<T> {
 		}
 		return false;
 	}
+	*/
 	
 	public String toString() {
-		MyList<T> current = this;
-		String str = "";
-		while(current.hasNext()) {
-			str = str +  " " + current.data.toString();
-			current = current.next;
+		StringBuilder sb = new StringBuilder("[");
+		for (int i = 0; i < this.size-1; i++) {
+			sb.append(this.list[i]);
+			sb.append(", ");
 		}
-		return str;
+		sb.append(this.list[this.size-1]);
+		sb.append("]");
+		
+		return sb.toString();
 			
 	}
-	
-	
-	public static void main(String[] args) {
-		
-		MyList<Character> list = new MyList<Character>();
-		
-		list.insert('e');
-		list.insert('r');
-		list.insert('i');
-		list.insert('b');
-		list.insert('e');
-		list.insert('r');
-		list.insert('t');
-		list.insert('o');
 
-		System.out.println( "inizio");
-		System.out.println( list.toString() );
-
-		System.out.println( "fine");
-		
-		
-	}
 
 	@Override
     public Iterator<T> iterator() {
@@ -163,5 +134,26 @@ public class MyList<T> implements Iterable<T> {
             throw new UnsupportedOperationException();
         }
     }
+    
+public static void main(String[] args) {
+		
+		MyList<Character> list = new MyList<Character>();
+		
+		list.insert('e');
+		list.insert('r');
+		list.insert('i');
+		list.insert('b');
+		list.insert('e');
+		list.insert('r');
+		list.insert('t');
+		list.insert('o');
+
+		System.out.println( "inizio");
+		System.out.println( list.toString() );
+
+		System.out.println( "fine");
+		
+		
+	}
 	
 }
