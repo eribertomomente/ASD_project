@@ -1,8 +1,12 @@
 TODO
 
-testare le classi in data_structure - map fatte manca la nuova lista
 scrivere contratti e il resto di entrambi
-Scrivere la lista con il raddoppiamento dell’array
+
+aggiungere a MyList il metodo insertAt
+
+modificare insert aggiungendo una privata che vada a fare tentativi di insert se la posizione è occupata
+
+testare counting sort e radix
 
 DOMANDE
 Per motivi di efficienza possiamo usare lo string buffer o piuttosto concateniamo stringhe?

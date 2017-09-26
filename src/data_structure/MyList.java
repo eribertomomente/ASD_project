@@ -48,6 +48,11 @@ public class MyList<T> implements Iterable<T> {
 		this.size ++;
 	}
 	
+	public void insert(String elementAt, int i) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	
 	public int size () {
 		return this.size;
@@ -155,5 +160,7 @@ public static void main(String[] args) {
 		
 		
 	}
+
+
 	
 }

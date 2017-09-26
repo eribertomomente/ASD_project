@@ -41,12 +41,12 @@ public class IOImplementation {
 		StringTokenizer st = new StringTokenizer( input );
 		
 		while ( st.hasMoreTokens() ){
+			
 			String currentWord = st.nextToken();
 			int subIndex = currentWord.length();
+			
 			words = fixMissingLists(words, subIndex);
-			if ( ! words.elementAt(subIndex -1).contains(currentWord) ){
-				words.elementAt(subIndex -1).insert(currentWord);
-			}
+		    words.elementAt(subIndex -1).insert(currentWord);
 		}
 		return words;
 	}
@@ -70,6 +70,63 @@ public class IOImplementation {
 		}
 		
 	}
+	
+	public static MyList<MyList<String>> deleteDuplicateWords (MyList<MyList<String>> words){
+		
+		for (int i = 0; i < words.size(); i++) {
+			MyList<String> sublist = words.elementAt(i);
+			
+		}
+		
+		return words;
+	}
+	
+	public static MyList<String> myRadixSort(MyList<String> list ) {
+		for ( int i = list.size() -1; i >= 0; i--) {
+			list = myCountingSort( list, i);
+		}
+		return list;
+	}
+	
+	public static MyList<String> myCountingSort(MyList<String> list, int index){
+		
+		MyList<String> sorted = new MyList<String>();
+		int[] c = new int[256];
+		
+		// for j← 1 to length[A]
+		for ( int i = 0; i < list.size(); i++ ) {
+			// C[A[j]] ← C[A[j]]+1
+			c[ list.elementAt(i).charAt(index) ] ++;
+		}
+		
+		// for i← 2 to k
+		for ( int i = 1; i < 256; i++) {
+			// C[i] ← C[i]+C[i-1]
+			c[i] += c[i-1];
+		}
+		
+		// for j ← length[A] downto 1
+		for ( int i = list.size()-1; i>= 0; i--) {
+			
+			// calcolo A[j]
+			char A_j = list.elementAt(i).charAt(index);
+			// calcolo C[A[j]] 
+			int C_A_j = c [ (int) A_j ];
+			// devo cercare la prima parola che ha quel carattere alla <index> posizione TODO attenzione alle parole già inserite
+			for ( int j = 0; j < list.size(); j++) {
+				if ( list.elementAt(j).charAt(index) == (char) C_A_j ) {
+					// B[C[A[j]]] ← A[j]
+					sorted.insert(list.elementAt(j), C_A_j -1) ;
+					break;
+				}
+			}
+		}
+		// C[A[j]] ← C[A[j]]-1
+		
+		
+		return sorted;
+	}
+
 	
 	/**
 	 * @param <input> words to be analyzed
