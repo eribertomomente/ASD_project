@@ -71,7 +71,10 @@ public class IOImplementation {
 		
 	}
 	
-	public static MyList<MyList<String>> deleteDuplicateWords (MyList<MyList<String>> words){
+	/*
+	 * TODO
+	 */
+	public static MyList<MyList<String>> deleteDuplicatedWords (MyList<MyList<String>> words){
 		
 		for (int i = 0; i < words.size(); i++) {
 			MyList<String> sublist = words.elementAt(i);
@@ -81,6 +84,11 @@ public class IOImplementation {
 		return words;
 	}
 	
+	//	TODO devo fare un ordinamento lessicografico di ogni sublist in modo che i doppioni mi appaiano consecutivamente
+	
+	/*
+	 * Radix Sort 
+	 */
 	public static MyList<String> myRadixSort(MyList<String> list ) {
 		for ( int i = list.size() -1; i >= 0; i--) {
 			list = myCountingSort( list, i);
@@ -127,7 +135,61 @@ public class IOImplementation {
 		return sorted;
 	}
 
+
+	public static MyList<String> myRadixSortPro(MyList<String> words ) {
+		for ( int i = words.size() -1; i >= 0; i--) {
+			char[] h = new char[words.size()]; 
+			for (int j=0; j<words.size(); j++) {
+				
+				// in h raccolgo tutte le i-esime lettere di ogni parola di words
+				char c;
+				
+				// non devo generare errori se becco parole più corte di altre
+				if ( words.elementAt(i).length() >= j ) {
+					c = words.elementAt(i).charAt(j);
+				} else {
+					// TODO devo occuparmi di gestire questi spazi che vado ad aggiungere
+					c = ' ';
+				}
+				
+				h[j]=c;
+
+			}
+			
+			// devo riassemblare la stringa ora
+			// parto ricomponendo ogni parola dall'inizio o da capo in modo da aggiungere sempre in coda/testa il nuovo char
+		}
+		return words;
+	}
 	
+	public static char[] myCountingSortPro(char[] a){
+		
+		char[] sorted = new char[a.length];
+		int[] c = new int[256];
+		
+		// for j← 1 to length[A]
+		for ( int j = 0; j < a.length; j++ ) {
+			// C[A[j]] ← C[A[j]]+1
+			c[ a[j] ] ++;
+		}
+		
+		// for i← 2 to k
+		for ( int i = 1; i < 256; i++) {
+			// C[i] ← C[i]+C[i-1]
+			c[i] += c[i-1];
+		}
+		
+		// for j ← length[A] downto 1
+		for ( int j = list.size()-1; j>= 0; j--) {
+			
+			sorted[ c[ a[j] ] ] = a[j];
+			c[a[j]] -- ;
+
+		}
+		
+		return sorted;
+	}
+
 	/**
 	 * @param <input> words to be analyzed
 	 * @return a MyMap which puts in relation the chars present in <input> with an increasing integer 
