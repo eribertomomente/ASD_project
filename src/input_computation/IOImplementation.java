@@ -135,34 +135,30 @@ public class IOImplementation {
 		return sorted;
 	}
 
-
-	public static MyList<String> myRadixSortPro(MyList<String> words ) {
-		for ( int i = words.size() -1; i >= 0; i--) {
-			char[] h = new char[words.size()]; 
-			for (int j=0; j<words.size(); j++) {
+	/*
+	 * WARNING: Le stringhe in words avranno tutte la stessa lunghezza
+	 */
+	private static MyList<String> myRadixSortPro(MyList<String> words ) {
+		
+		if (words.size()>0) {
+			for ( int i = words.elementAt(0).length()-1; i >= 0; i--) {
 				
-				// in h raccolgo tutte le i-esime lettere di ogni parola di words
-				char c;
+				char[] h = new char[words.size()]; 
 				
-				// non devo generare errori se becco parole più corte di altre
-				if ( words.elementAt(i).length() >= j ) {
-					c = words.elementAt(i).charAt(j);
-				} else {
-					// TODO devo occuparmi di gestire questi spazi che vado ad aggiungere
-					c = ' ';
+				for (int j=0; j<words.size(); j++) {
+					// in h raccolgo tutte le i-esime lettere di ogni parola di words
+					h[j]=words.elementAt(j).charAt(i);
 				}
-				
-				h[j]=c;
-
-			}
 			
-			// devo riassemblare la stringa ora
-			// parto ricomponendo ogni parola dall'inizio o da capo in modo da aggiungere sempre in coda/testa il nuovo char
+				h= myCountingSortPro(h);
+				// devo riassemblare la stringa ora
+				// parto ricomponendo ogni parola dall'inizio o da capo in modo da aggiungere sempre in coda/testa il nuovo char
+			}
 		}
 		return words;
 	}
 	
-	public static char[] myCountingSortPro(char[] a){
+	private static char[] myCountingSortPro(char[] a){
 		
 		char[] sorted = new char[a.length];
 		int[] c = new int[256];
