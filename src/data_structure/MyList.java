@@ -13,6 +13,7 @@ public class MyList<T> implements Iterable<T> {
 	 *                                                 The last node has null <data>.
 	 */
 	
+	
 	// ATTRIBUTES
 	//private T data;
 	//private MyList<T> next;
@@ -48,9 +49,17 @@ public class MyList<T> implements Iterable<T> {
 		this.size ++;
 	}
 	
-	public void insert(String elementAt, int i) {
-		// TODO Auto-generated method stub
+	/**
+	 * 
+	 * @param str
+	 * @param index REQUIRE i <this.size()
+	 */
+	public void setElementAt(T el, int index) {
+		if (index>=this.size) {
+			throw new IllegalArgumentException();
+		}
 		
+		this.list[index] = el;
 	}
 	
 	
@@ -68,6 +77,13 @@ public class MyList<T> implements Iterable<T> {
 		}
 		// end of the MyList
 		throw new NoSuchElementException();
+	}
+	
+	public T lastElement() {
+		if (this.size == 0) {
+			throw new NoSuchElementException();
+		}
+		return this.elementAt(this.size-1);
 	}
 	
 	
@@ -155,6 +171,7 @@ public static void main(String[] args) {
 
 		System.out.println( "inizio");
 		System.out.println( list.toString() );
+		System.out.println(""+ list.lastElement() );
 
 		System.out.println( "fine");
 		

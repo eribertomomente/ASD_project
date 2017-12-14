@@ -1,8 +1,4 @@
 /Main.class
-/.classpath
-/.gitignore
-/.project
-/data_structure/
-/graphs/
-/input_computation/
 /sorting/
+/input_computation/
+/data_structure/

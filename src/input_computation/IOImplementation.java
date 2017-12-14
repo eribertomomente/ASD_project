@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import data_structure.MyList;
+import sorting.SortingAlgorithm;
 import data_structure.MapCharToInt;
 import java.util.Arrays;
 
@@ -37,16 +38,17 @@ public class IOImplementation {
 	 */
 	public static MyList<MyList<String>> listWords(String input){
 		
-		MyList<MyList<String>> words = new MyList<MyList<String>>();		
+		MyList<MyList<String>> words = new MyList<MyList<String>>();	
+		// TODO myStringTokenizer implementare
 		StringTokenizer st = new StringTokenizer( input );
 		
 		while ( st.hasMoreTokens() ){
 			
 			String currentWord = st.nextToken();
-			int subIndex = currentWord.length();
+			int len = currentWord.length();
 			
-			words = fixMissingLists(words, subIndex);
-		    words.elementAt(subIndex -1).insert(currentWord);
+			words = fixMissingLists(words, len);
+		    words.elementAt(len -1).insert(currentWord);
 		}
 		return words;
 	}
@@ -61,8 +63,8 @@ public class IOImplementation {
 		
 		if ( list.size() < cardinality ) {
 			
-			MyList<String> newGroup = new MyList<String>();
-			list.insert(newGroup);
+			MyList<String> newWordList = new MyList<String>();
+			list.insert(newWordList);
 			return fixMissingLists( list, cardinality );
 			
 		} else {
@@ -71,120 +73,50 @@ public class IOImplementation {
 		
 	}
 	
+	/**
+	 * dire anche che elimina i duplicati
+	 * @param words
+	 * @return
+	 */
+	public static void sortWords( MyList<MyList<String>> words){
+		
+		for (int i=0; i<words.size(); i++) {
+			// ordino solo se ho almeno 2 stringhe in ogni sublist
+			if (words.elementAt(i).size() > 1) {
+				
+				// ordino 
+				SortingAlgorithm.radixSort(words.elementAt(i));
+				
+				// elimino le parole duplicate
+				MyList<String> noDuplicates = deleteDuplicatedWords(words.elementAt(i));
+
+				// sostiuisco la sublist con i doppioni con quella senza
+				words.setElementAt(noDuplicates, i);
+			}
+		}
+	}
+	
 	/*
+	 * REQUIRE i duplicati consecutivi
 	 * TODO
 	 */
-	public static MyList<MyList<String>> deleteDuplicatedWords (MyList<MyList<String>> words){
+	private static MyList<String> deleteDuplicatedWords (MyList<String> words){
 		
-		for (int i = 0; i < words.size(); i++) {
-			MyList<String> sublist = words.elementAt(i);
+		MyList<String> noDuplicates = new MyList<String>();
+		
+		noDuplicates.insert(words.elementAt(0));
+		
+		for (int i = 1; i < words.size(); i++) {
 			
-		}
-		
-		return words;
-	}
-	
-	//	TODO devo fare un ordinamento lessicografico di ogni sublist in modo che i doppioni mi appaiano consecutivamente
-	
-	/*
-	 * Radix Sort 
-	 */
-	public static MyList<String> myRadixSort(MyList<String> list ) {
-		for ( int i = list.size() -1; i >= 0; i--) {
-			list = myCountingSort( list, i);
-		}
-		return list;
-	}
-	
-	public static MyList<String> myCountingSort(MyList<String> list, int index){
-		
-		MyList<String> sorted = new MyList<String>();
-		int[] c = new int[256];
-		
-		// for j← 1 to length[A]
-		for ( int i = 0; i < list.size(); i++ ) {
-			// C[A[j]] ← C[A[j]]+1
-			c[ list.elementAt(i).charAt(index) ] ++;
-		}
-		
-		// for i← 2 to k
-		for ( int i = 1; i < 256; i++) {
-			// C[i] ← C[i]+C[i-1]
-			c[i] += c[i-1];
-		}
-		
-		// for j ← length[A] downto 1
-		for ( int i = list.size()-1; i>= 0; i--) {
-			
-			// calcolo A[j]
-			char A_j = list.elementAt(i).charAt(index);
-			// calcolo C[A[j]] 
-			int C_A_j = c [ (int) A_j ];
-			// devo cercare la prima parola che ha quel carattere alla <index> posizione TODO attenzione alle parole già inserite
-			for ( int j = 0; j < list.size(); j++) {
-				if ( list.elementAt(j).charAt(index) == (char) C_A_j ) {
-					// B[C[A[j]]] ← A[j]
-					sorted.insert(list.elementAt(j), C_A_j -1) ;
-					break;
-				}
+			String currentWord=words.elementAt(i);
+			if( ! currentWord.equals(noDuplicates.lastElement() )) {
+				noDuplicates.insert(currentWord);
 			}
 		}
-		// C[A[j]] ← C[A[j]]-1
 		
-		
-		return sorted;
-	}
-
-	/*
-	 * WARNING: Le stringhe in words avranno tutte la stessa lunghezza
-	 */
-	private static MyList<String> myRadixSortPro(MyList<String> words ) {
-		
-		if (words.size()>0) {
-			for ( int i = words.elementAt(0).length()-1; i >= 0; i--) {
-				
-				char[] h = new char[words.size()]; 
-				
-				for (int j=0; j<words.size(); j++) {
-					// in h raccolgo tutte le i-esime lettere di ogni parola di words
-					h[j]=words.elementAt(j).charAt(i);
-				}
-			
-				h= myCountingSortPro(h);
-				// devo riassemblare la stringa ora
-				// parto ricomponendo ogni parola dall'inizio o da capo in modo da aggiungere sempre in coda/testa il nuovo char
-			}
-		}
-		return words;
+		return noDuplicates;
 	}
 	
-	private static char[] myCountingSortPro(char[] a){
-		
-		char[] sorted = new char[a.length];
-		int[] c = new int[256];
-		
-		// for j← 1 to length[A]
-		for ( int j = 0; j < a.length; j++ ) {
-			// C[A[j]] ← C[A[j]]+1
-			c[ a[j] ] ++;
-		}
-		
-		// for i← 2 to k
-		for ( int i = 1; i < 256; i++) {
-			// C[i] ← C[i]+C[i-1]
-			c[i] += c[i-1];
-		}
-		
-		// for j ← length[A] downto 1
-		for ( int j = list.size()-1; j>= 0; j--) {
-			
-			sorted[ c[ a[j] ] ] = a[j];
-			c[a[j]] -- ;
-
-		}
-		
-		return sorted;
-	}
 
 	/**
 	 * @param <input> words to be analyzed
@@ -194,19 +126,17 @@ public class IOImplementation {
 		
 		MapCharToInt alphabet = new MapCharToInt();
 		
-		while( input.hasNext() ) {
-			MyList<String> sub = input.getData();
+		for( int i=0; i<input.size(); i++ ) {
+			MyList<String> sub = input.elementAt(i);
 			
-			while (sub.hasNext() ) {
-				String word = sub.getData();
+			for( int j=0; j<sub.size(); j++ ) {
+				String word = sub.elementAt(j);
 				
-				for (int i = 0; i < word.length(); i++) {
-					char ch = word.charAt(i);
+				for (int k = 0; k < word.length(); k++) {
+					char ch = word.charAt(k);
 					alphabet.insertKey(ch);
 				}
-				sub = sub.getNext();
 			}
-			input = input.getNext();
 		}
 		return alphabet;
 	}
@@ -228,15 +158,17 @@ public class IOImplementation {
 		return structure;
 	}
 	
-
 	
+	
+// TODO TEST check each function with empty sublist
 	
 	
 
 	public static void main(String[] args) {
 		//MyList<String> words =  listWords( getInput() ) ;
-		MyList<MyList<String>> words =  listWords( "come ciao stai? I am eri" ) ;
-		
+		MyList<MyList<String>> words =  listWords( "come come ciao stai? I am eri ciao" ) ;
+		sortWords(words); 
+	
 		System.out.println("********** WORDS DOWN HERE *************");
 		for (int i = 0; i< words.size(); i++){
 			System.out.println(words.elementAt(i));
@@ -247,6 +179,7 @@ public class IOImplementation {
 		System.out.println( alpha.toString() );
 
 		System.out.println("********** arrays DOWN HERE *************");
+		/*
 		while( words.hasNext() ) {
 					
 			MyList<String> sub = words.getData();
@@ -258,6 +191,7 @@ public class IOImplementation {
 			}
 			words = words.getNext();
 		}
+		*/
 	}
 
 }
