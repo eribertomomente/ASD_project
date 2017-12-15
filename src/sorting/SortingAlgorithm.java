@@ -1,7 +1,5 @@
 package sorting;
 
-import java.io.*;
-import java.util.*;
 
 import data_structure.MyList;
 
@@ -81,7 +79,6 @@ public class SortingAlgorithm {
 	        for(int i = 0; i<arr.length; i++) {
 	        		ciccio.insert(arr[i]);
 	        }
-	        int n = arr.length;
 	        radixSort(ciccio);
 	        System.out.print(ciccio.toString());
 	    }

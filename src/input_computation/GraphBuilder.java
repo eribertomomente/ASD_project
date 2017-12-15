@@ -23,7 +23,7 @@ public class GraphBuilder {
 			if ( first[i] != 0 || second[i] != 0 ) {
 				if (first[i] < second[i]) {
 					return false;
-				} else {
+				} else if (first[i] != second[i]){
 					// verifico che almeno un char sia maggiore. Altrimenti se ho tutti zeri mi deve restituire falso.
 					flag = true;
 				}
@@ -91,7 +91,7 @@ public class GraphBuilder {
 	private static Graph buildEdges(Graph myGraph, MyList<MyList<String>> words, MapCharToInt alphabet, MapStringToInt map ) {
 		
 		for(int i = 0; i < words.size(); i++) {
-			for (int j = i+1; j < words.size(); j++) {
+			for (int j = 0; j <= i; j++) {
 				
 				for (String s1 : words.elementAt(i)) {
 					for (String s2 : words.elementAt(j)) {
