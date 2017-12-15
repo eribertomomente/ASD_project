@@ -37,8 +37,8 @@ public class GraphTest extends Graph {
 		System.out.println();
 		System.out.println( test.minPath(0, 3).toString()+ "\n" );
 
-		System.out.println( "il nodo più lontano dal nodo 0 è: " + test.farthestVertex(0) );
-		System.out.println( "il nodo più lontano da 0 è a distanza: " + test.maxDistance(0) + "\n" );		
+		System.out.println( "il nodo piï¿½ lontano dal nodo 0 ï¿½: " + test.farthestVertex(0) );
+		System.out.println( "il nodo piï¿½ lontano da 0 ï¿½ a distanza: " + test.maxDistance(0) + "\n" );		
 		*/
 		//System.out.println("diametro: " + test.diameter() + "\n");
 		
@@ -68,7 +68,7 @@ public class GraphTest extends Graph {
 		tree.setEdge( 10,0 );
 		System.out.println(tree.toString() );
 		
-		System.out.println("diametro: " + tree.diameter() + "\n");
+		//System.out.println("diametro: " + tree.diameter() + "\n");
 		
 		Graph t = new Graph();
 		for (int i = 0; i < 6; i++){
@@ -87,7 +87,7 @@ public class GraphTest extends Graph {
 		t.setEdge( 4,5 );
 		System.out.println(t.toString() );
 		
-		System.out.println("diametro: " + t.diameter() + "\n");
+		//System.out.println("diametro: " + t.diameter() + "\n");
 		
 		
 		/*
@@ -121,7 +121,7 @@ public class GraphTest extends Graph {
 		}
 		System.out.println("\n");
 		
-		System.out.println( "il grafo è ciclico? " + cycle.isCyclical() );
+		System.out.println( "il grafo ï¿½ ciclico? " + cycle.isCyclical() );
 		
 		*/
 		

@@ -15,12 +15,13 @@ public class GraphBuilder {
 	
 
 	
-	public static boolean compareWords(int[] first, int[] second) {
+	private static boolean areInRelation(int[] first, int[] second) {
 		boolean flag = false;
 		for ( int i=0; i< first.length; i++) {
-			// caso in cui sono entrambi a zero, va bene (basta che non siano tutti)
+			
+			// caso in cui sono entrambi a zero, va bene (a meno che non siano tutti)
 			if ( first[i] != 0 || second[i] != 0 ) {
-				if (first[i] <= second[i]) {
+				if (first[i] < second[i]) {
 					return false;
 				} else {
 					// verifico che almeno un char sia maggiore. Altrimenti se ho tutti zeri mi deve restituire falso.
@@ -32,13 +33,13 @@ public class GraphBuilder {
 	}
 
 	/**
-	 * WARNING in words cannot be duplicated elements
+	 * WARNING in words cannot be duplicated elements TODO però c'è contains
 	 * @param words
 	 * @return
 	 */
-	private static MapStringToInt getVertices(MyList<MyList<String>> words) {
+	public static MapStringToInt getVertices(MyList<MyList<String>> words) {
 		
-		// calculate number of elements in <words>
+		// conto numero di elementi in <words>
 		int numberWords = 0;
 		for (int i = 0; i < words.size(); i++) {
 			numberWords += words.elementAt(i).size();
@@ -98,7 +99,7 @@ public class GraphBuilder {
 						int[] struct1 = IOImplementation.buildWordStructure( alphabet, s1);
 						int[] struct2 = IOImplementation.buildWordStructure( alphabet, s2);
 						
-						if ( compareWords(struct1, struct2) ) {
+						if ( areInRelation(struct1, struct2) ) {
 							
 							int startingVertex = map.getIndex(s1);
 							int targetVertex = map.getIndex(s2);

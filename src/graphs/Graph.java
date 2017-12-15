@@ -3,6 +3,8 @@ package graphs;
 import java.util.ArrayList;
 import java.util.List;
 
+import data_structure.MapStringToInt;
+
 public class Graph {
 
 	private ArrayList<ArrayList<Integer>> graph;
@@ -233,18 +235,20 @@ public class Graph {
 	}
 
 
-	public String toString(){
-		StringBuffer s = new StringBuffer();
+	public String toString(MapStringToInt map){
+		StringBuffer s = new StringBuffer("digraph G_T {\n");
 		for ( int i = 0; i< this.graph.size(); i++){
-			s.append(String.format("[%d] --> ", i));
-			for ( int j = 0; j< this.graph.get(i).size(); j++){
-				s.append(String.format("%d -> ", this.graph.get(i).get(j)));
-			}
-			s.delete(s.length()-4, s.length());
-			s.append("\n");
+			s.append(String.format("%d [label=\"%s\"];\n", i, map.getString(i)));
 		}
+		for ( int i = 0; i< this.graph.size(); i++){
+			for ( int j = 0; j< this.graph.get(i).size(); j++){
+				s.append(String.format("%d -> %d;\n", i, this.graph.get(i).get(j) ));
+			}
+		}
+		s.append("}");
 		return s.toString();
 	}
+	
 
 
 }

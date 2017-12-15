@@ -34,7 +34,14 @@ public class MapStringToInt {
 		throw new NoSuchElementException();
 	}
 	
-	public boolean contains( String key ) {
+	public String getString (int index) {
+		if (!(index < cardinality && index >= 0)) {
+			throw new IllegalArgumentException();
+		}
+		return elements[index];
+	}
+	
+	private boolean contains( String key ) {
 		for(int i=0; i<cardinality; i++) {
 			if (elements[i] == key) {
 				return true;
