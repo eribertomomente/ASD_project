@@ -1,12 +1,11 @@
 package graphs;
 
-import java.util.ArrayList;
-
 import data_structure.MapStringToInt;
+import data_structure.MyList;
 
 public class Graph {
 
-	private ArrayList<ArrayList<Integer>> graph;
+	private MyList<MyList<Integer>> graph;
 
 	// EXTRA ATTRIBUTES:
 	private int[] color;			// keep the "status" of each vertex
@@ -18,7 +17,7 @@ public class Graph {
 
 	// CONSTRUCTOR:	
 	public Graph(){
-		graph= new ArrayList<ArrayList<Integer>>();
+		graph= new MyList<MyList<Integer>>();
 	}
 
 
@@ -35,7 +34,7 @@ public class Graph {
 	 *  add a new empty vertex in the graph
 	 */
 	public void addVertex (){		 
-		this.graph.add( new ArrayList<Integer>() );
+		this.graph.insert( new MyList<Integer>() );
 	}
 
 
@@ -45,7 +44,7 @@ public class Graph {
 	 * @param v target vertex
 	 */
 	public void setEdge(int start, int target){
-		this.graph.get(start).add(target);
+		this.graph.elementAt(start).insert(target);
 	}
 
 
@@ -87,7 +86,7 @@ public class Graph {
 
 	private int[] DFSVisit(int vertex, int[] maxPath ) {
 		color[vertex] = GREY;
-		for ( int v : this.graph.get(vertex) ){
+		for ( int v : this.graph.elementAt(vertex) ){
 			
 			if ( color[v] == WHITE ){
 				maxPath = this.DFSVisit(v, maxPath);
@@ -110,8 +109,8 @@ public class Graph {
 			s.append(String.format("%d [label=\"%s\"];\n", i, map.getString(i)));
 		}
 		for ( int i = 0; i< this.graph.size(); i++){
-			for ( int j = 0; j< this.graph.get(i).size(); j++){
-				s.append(String.format("%d -> %d;\n", i, this.graph.get(i).get(j) ));
+			for ( int j = 0; j< this.graph.elementAt(i).size(); j++){
+				s.append(String.format("%d -> %d;\n", i, this.graph.elementAt(i).elementAt(j) ));
 			}
 		}
 		s.append("}");
@@ -122,8 +121,8 @@ public class Graph {
 		StringBuffer s = new StringBuffer();
 		for ( int i = 0; i< this.graph.size(); i++){
 			s.append(String.format("%d -> ", i));
-			for ( int j = 0; j< this.graph.get(i).size(); j++){
-				s.append(String.format("%d, ", this.graph.get(i).get(j) ));
+			for ( int j = 0; j< this.graph.elementAt(i).size(); j++){
+				s.append(String.format("%d, ", this.graph.elementAt(i).elementAt(j) ));
 			}
 			s.append("\n");
 		}

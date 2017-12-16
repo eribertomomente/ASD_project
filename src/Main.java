@@ -8,8 +8,8 @@ public class Main {
 		
 //		String input = IOImplementation.getInput();
 //		MyList<MyList<String>> words = IOImplementation.listWords(input);
-//		MyList<MyList<String>> words = IOImplementation.listWords("se nonna non era serena non si rasserenerava nonno");
-		MyList<MyList<String>> words = IOImplementation.listWords("anna ana annna annnna adn and");
+		MyList<MyList<String>> words = IOImplementation.listWords("se nonna non era serena non si rasserenerava nonno");
+//		MyList<MyList<String>> words = IOImplementation.listWords("anna ana annna annnna adn and");
 		IOImplementation.sortWords(words);
 		
 		MapCharToInt mcti = IOImplementation.getAlphabet(words);

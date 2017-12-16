@@ -2,9 +2,9 @@ package input_computation;
 
 import java.io.BufferedInputStream;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 import data_structure.MyList;
+import data_structure.MyStringTokenizer;
 import sorting.SortingAlgorithm;
 import data_structure.MapCharToInt;
 
@@ -39,7 +39,7 @@ public class IOImplementation {
 		
 		MyList<MyList<String>> words = new MyList<MyList<String>>();	
 		// TODO myStringTokenizer implementare
-		StringTokenizer st = new StringTokenizer( input );
+		MyStringTokenizer st = new MyStringTokenizer( input );
 		
 		while ( st.hasMoreTokens() ){
 			
