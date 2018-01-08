@@ -1,72 +1,70 @@
-package graphs;
-
-import data_structure.MapStringToInt;
-import data_structure.MyList;
+package data_structure;
 
 public class Graph {
+	
+	/**
+	 * MISISON: implementare un grafo. Graph e' immutabile e unbounded.
+	 * 
+	 * FUNZIONE DI ASTRAZIONE: Graph viene implementato come liste di adiacenza.
+	 */
 
 	private MyList<MyList<Integer>> graph;
 
-	// EXTRA ATTRIBUTES:
-	private int[] color;			// keep the "status" of each vertex
-
-	// CONSTANTS:	
-	private static final int WHITE = 0;
-	private static final int GREY = 1;
-	private static final int BLACK = 2;
-
-	// CONSTRUCTOR:	
+	/**
+	 * Costruttore
+	 */
 	public Graph(){
 		graph= new MyList<MyList<Integer>>();
 	}
 
-
-
 	/**
-	 * @return number of vertices
+	 * @return numero di vertici
 	 */
 	public int size(){ 
 		return this.graph.size();
 	}
 
-
 	/**
-	 *  add a new empty vertex in the graph
+	 *  aggiunge un nuovo vertice nel grafo
 	 */
 	public void addVertex (){		 
 		this.graph.insert( new MyList<Integer>() );
 	}
 
-
 	/**
-	 * build an edge on the graph from <start> to <target>
-	 * @param u starting vertex
-	 * @param v target vertex
+	 * costruisce un arco orientato da start a target
+	 * @param start vertice di partenza dell'arco
+	 * @param target vertice di destinazione dell'arco
 	 */
 	public void setEdge(int start, int target){
 		this.graph.elementAt(start).insert(target);
 	}
-
-
-
+	
+	private int[] color;	// mantiene lo "stato" di ogni vertice
+	
+	// costanti
+	private static final int WHITE = 0;
+	private static final int GREY = 1;
+	private static final int BLACK = 2;
 
 	/**
-	 * DEEP FIRST SEARCH
+	 * 
+	 * @return
 	 */
 	public int DFS_MaxPath(){
 		
-		int verticesNum = this.graph.size();
+		int verticesNum = this.size();
 		
 		color = new int[verticesNum];
 		int[] maxPath = new int[verticesNum];
 
 		//inizializzo il vettore dei colori
-		for ( int i=0; i< this.graph.size(); i++){
+		for ( int i=0; i<verticesNum; i++){
 			color[i] = WHITE;
 			maxPath[i]=0;
 		}    
 		
-		for ( int i=0; i< this.graph.size(); i++){
+		for ( int i=0; i<verticesNum; i++){
 			// TODO forse dovrei vedere piuttosto se il maxPath l'ho mai modificato più che il colore... booooh
 			if (color[i] == WHITE){
 				maxPath = this.DFSVisit(i, maxPath);
@@ -83,7 +81,12 @@ public class Graph {
 		return max;
 	}
 
-
+	/**
+	 * 
+	 * @param vertex
+	 * @param maxPath
+	 * @return
+	 */
 	private int[] DFSVisit(int vertex, int[] maxPath ) {
 		color[vertex] = GREY;
 		for ( int v : this.graph.elementAt(vertex) ){
@@ -91,26 +94,45 @@ public class Graph {
 			if ( color[v] == WHITE ){
 				maxPath = this.DFSVisit(v, maxPath);
 			} 
-			
 			// aggiorno il max
 			if(maxPath[v]+1 > maxPath[vertex]) { 
 				maxPath[vertex]=maxPath[v]+1;
 				}
-			
 		}
 		color[vertex] = BLACK;
 		return maxPath;
 	}
 
-
+	/**
+	 * WARNING alcuni char vengono non stampati. Non bestemmiare se si vedono parole piu corte
+	 * @param original
+	 * @return
+	 */
+	private String avoidErrorChar (String original) {
+		StringBuffer modSB = new StringBuffer();
+		for (int j=0; j < original.length(); j++) {
+			char c = original.charAt(j);
+			if (c == '\n') {
+				modSB.append("\\n");  // rimpiazzo il ritorno a capo con il simbolo \n
+			} else if (c == '"') {
+				modSB.append("''"); // rimpiazzo le doppie virgolette (") con due apostofi ('')
+			} else if ((int)c > 31 || (int)c !=127){ // non stampo i primi 32 caratteri di controllo
+				modSB.append(c);
+			}
+		}
+		return modSB.toString();
+	}
+	
 	public String toString(MapStringToInt map){
 		StringBuffer s = new StringBuffer("digraph G_T {\n");
 		for ( int i = 0; i< this.graph.size(); i++){
-			s.append(String.format("%d [label=\"%s\"];\n", i, map.getString(i)));
+			String original = map.getString(i);
+			String modified = avoidErrorChar( original );
+			s.append(String.format("%d [label=\"%s\"];\n", i, modified));
 		}
-		for ( int i = 0; i< this.graph.size(); i++){
-			for ( int j = 0; j< this.graph.elementAt(i).size(); j++){
-				s.append(String.format("%d -> %d;\n", i, this.graph.elementAt(i).elementAt(j) ));
+		for ( int m = 0; m< this.graph.size(); m++){
+			for ( int n = 0; n< this.graph.elementAt(m).size(); n++){
+				s.append(String.format("%d -> %d;\n", m, this.graph.elementAt(m).elementAt(n) ));
 			}
 		}
 		s.append("}");

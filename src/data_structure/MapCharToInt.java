@@ -5,20 +5,23 @@ import java.util.NoSuchElementException;
 public class MapCharToInt {
 	
 	/**
-	 * chiave valore
-	 * solo char to int
-	 * la posizione in elements determina qual è la lettera corrispondente in ascii
-	 * TODO ste robe sotto vanno bene per l'invariante di MyMap
-	 * INVARIANT:	- "alphabet" does not contains repeated chars
-	 * 						- "alphabet" contains only chars used in the input
+	 * MISSION: 	Implementare una funzione biiettiva che mappi caratteri in interi.
+	 * 					WARNING: si presuppone che non esistano chars ripetuti
+	 * 					MapCharToInt è immutable.
+	 * 	
+	 * INVARIANTE: <elements> non contiene caratteri ripetuti
 	 * 
-	 * @return a MyMap which puts in relation the chars present in <input> with an increasing integer 
-	 * 
-	 */
+	 * FUNZIONE DI ASTRAZIONE:  <elements> un array di 256 interi rappresenta il mio alfabeto.
+	 * 												  Se alla posizione i-esima di <elements> viene scritto j significa che l'i-esimo carattere ascii viene mappato in j.
+	 * 												  Un intero <cardinality> mi mantiene in memoria quanti elementi ho già inserito, per migliorare le performance.
+	 */	
 	
 	private int[] elements;
 	private int cardinality;
 	
+	/**
+	 * Costruttore
+	 */
 	public MapCharToInt () {
 		elements = new int[256];
 		for (int i = 0; i < 256; i++) {
@@ -27,31 +30,45 @@ public class MapCharToInt {
 		cardinality = 0;
 	}
 	
-	
-	public void insertKey(char key){
-		if ( ! this.contains(key) ) {
-			int position = (int) key;
+	/**
+	 * Inserisce un nuovo carattere <c>
+	 * @param <c>
+	 */
+	public void insertKey(char c){
+		if ( ! this.contains(c) ) {
+			int position = (int) c;
 			elements[position] = cardinality;
 			cardinality ++;
 		}
 	}
 	
-	public int getIndex (char key) {
-		if ( ! this.contains(key) ) {
+	/**
+	 * @param c
+	 * @return
+	 */
+	public int getIndex (char c) {
+		if ( ! this.contains(c) ) {
 			throw new NoSuchElementException();
 		}
-		return  elements[ (int) key ];
+		return  elements[ (int) c ];
 	}
 	
-	public boolean contains( char key ) {
-		int position = (int) key;
+	/**
+	 * @param <c>
+	 * @return true se <this> contiene già <c>, false altrimenti
+	 */
+	public boolean contains( char c ) {
+		int position = (int) c;
 		if (elements[position] == -1){
 			return false;
 		}
 		return true;
 	}
 	
-	public int size () {
+	/**
+	 * @return
+	 */
+	public int size() {
 		return cardinality;
 	}
 	

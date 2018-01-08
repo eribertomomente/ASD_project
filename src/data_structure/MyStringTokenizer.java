@@ -1,15 +1,24 @@
 package data_structure;
 
+import java.util.StringTokenizer;
 
 public class MyStringTokenizer {
 	
 	/**
-	 * mutabile
+	 * MISSSION: Questa classe è l'implementazione dell'analoga classe Java: StringTokenizer.
+	 * 					  MyStringTokenizer è immutable.
+	 * 
+	 * FUNZIONE DI ASTRAZIONE: MyStringTokenizer viene rappresentato con un array di stringhe che non contengono spazi e un intero che 
+	 * 													indica qual è il primo elemento non "letto" dal client.
 	 */
 	
 	private String[] words;
 	private int index;
 	
+	/**
+	 * Costruttore
+	 * @param <str> stringa da scomporre
+	 */
 	public MyStringTokenizer(String str) {
 		
 		int count=1; // numero di parole in str 
@@ -48,14 +57,26 @@ public class MyStringTokenizer {
 		
 		this.index=0;
 	}
-
+	
+	/**
+	 * @return true se ci sono ancora tokens da restituire, false altrimenti.
+	 */
 	public  boolean hasMoreTokens() {
 		if (index < this.words.length){
-			return true;
+			if (this.words[index].length()==0) {
+				index++;
+				return hasMoreTokens();
+			} else {
+				return true;
+			}
 		}
 		return false;
 	}
 	
+	/**
+	 * WARNING: verifica di restituire sempre stringhe di lunghezza maggiore di zero
+	 * @return l'index-esimo token
+	 */
 	public String nextToken() {
 		String res = this.words[index];
 		this.index++;
@@ -63,13 +84,18 @@ public class MyStringTokenizer {
 	}
 	
 	public static void main(String[] args) {
-		MyStringTokenizer st = new MyStringTokenizer( "se nonna non era serena non si rasserenerava nonno" );
+//		StringTokenizer q = new StringTokenizer("ciao");
+//		while (q.hasMoreTokens()) {
+//			String s = q.nextToken();
+//		}
+		MyStringTokenizer st = new MyStringTokenizer( "                                        " );
 		
 		while ( st.hasMoreTokens() ){
 			
 			System.out.println( st.nextToken() );
 			
 		}
+		System.out.println( "ciao");
 	}
 	
 	
