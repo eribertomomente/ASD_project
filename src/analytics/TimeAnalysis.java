@@ -227,15 +227,17 @@ public class TimeAnalysis {
 	
 	public static void main (String args[]) {
 		
-		int startingInputLength = 10;
-		int iterations = 5;
-		int increment = 10;
+		int startingInputLength = 1000;
+		int iterations = 50;
+		int increment = 1000;
 		long tMin = (long) (granularity()/0.05);
 		
-		main(startingInputLength, iterations, increment, tMin);
-		TimeAnalysis_InputManager.main(startingInputLength, iterations, increment);
 		TimeAnalysis_GraphBuilding.main(startingInputLength, iterations, increment);
 		TimeAnalysis_maxPath.main(startingInputLength, iterations, increment);
+		main(startingInputLength, iterations, increment, tMin);
+		TimeAnalysis_InputManager.main(startingInputLength, iterations, increment);
+
+
 	}
 
 }

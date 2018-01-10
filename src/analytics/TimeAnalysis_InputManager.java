@@ -197,7 +197,7 @@ public class TimeAnalysis_InputManager {
 			double Delta = medio/10;
 			double[] res = misurazione(inputLength, tMin, Delta);
 			
-			System.out.println(res[0]+ "\t\t" + res[1]);
+			System.out.println(res[0]);
 			inputLength += increment;
 		}
 		

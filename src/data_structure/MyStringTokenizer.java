@@ -2,6 +2,8 @@ package data_structure;
 
 import java.util.StringTokenizer;
 
+import analytics.RandomGenerator;
+
 public class MyStringTokenizer {
 	
 	/**
@@ -21,34 +23,37 @@ public class MyStringTokenizer {
 	 */
 	public MyStringTokenizer(String str) {
 		
-		int count=1; // numero di parole in str 
-		for (int i = 0; i <str.length(); i++) {
-			if (str.charAt(i)==' ') { 	count++; }
+		int count=1; // stima del numero di parole in str 
+		for (int i = 1; i <str.length(); i++) {
+			if(		(str.charAt(i - 1) != ' ' && str.charAt(i) == ' ') ||
+					(i == str.length() - 1 && str.charAt(i) != ' ')) {
+				count++;
+			}
 		}
 		
-		this.words= new String[count];
+		this.words = new String[count];
 		
 		int i=0;
 		int j=0;
 		StringBuffer buffer = new StringBuffer(); // buffer per accumulare le lettere di una parola
 		
-		// finchè non ho raccolto tutte le parole
-		// e finchè non ho scandito tutti i caratteri
+		// finche' non ho raccolto tutte le parole
+		// e finche' non ho scandito tutti i caratteri
 		while (i<count && j<str.length()) {
-			if (str.charAt(j) == ' ') {
-				
-				// creo una nuova parola in words
-				this.words[i] = buffer.toString();
-				buffer = new StringBuffer();
-				i++;
-			} else {
-				
+			// se il carattere non è uno spazio lo aggiungo nel buffer
+			if(str.charAt(j) != ' ') {
 				// salvo la lettere nel buffer
 				buffer.append(str.charAt(j));
+			// altrimenti se è uno spazio e il buffer non è vuoto
+			} else if (buffer.length() > 0) {
+				// creo una nuova parola in words
+				this.words[i++] = buffer.toString();
+				buffer = new StringBuffer();
 			}
+
 			j++;
 		}
-		
+
 		// controllo per quale condizione ero uscito dal while
 		if ( j==str.length() ) {
 			// salvo anche l'ultima parola rimasta nel buffer
@@ -59,16 +64,12 @@ public class MyStringTokenizer {
 	}
 	
 	/**
-	 * @return true se ci sono ancora tokens da restituire, false altrimenti.
+	 * @return true se ci sono ancora token da restituire, false altrimenti.
 	 */
-	public  boolean hasMoreTokens() {
-		if (index < this.words.length){
-			if (this.words[index].length()==0) {
-				index++;
-				return hasMoreTokens();
-			} else {
-				return true;
-			}
+	public boolean hasMoreTokens() {
+		// se il mio indice e' minore del numero di parole 
+		if (this.index < this.words.length){
+			return true;
 		}
 		return false;
 	}
@@ -78,24 +79,23 @@ public class MyStringTokenizer {
 	 * @return l'index-esimo token
 	 */
 	public String nextToken() {
-		String res = this.words[index];
-		this.index++;
-		return res;
+		return this.words[this.index++];
 	}
 	
 	public static void main(String[] args) {
-//		StringTokenizer q = new StringTokenizer("ciao");
+//		StringTokenizer st = new StringTokenizer("ciao mi chiamo paul e non so programmare.");
 //		while (q.hasMoreTokens()) {
 //			String s = q.nextToken();
 //		}
-		MyStringTokenizer st = new MyStringTokenizer( "                                        " );
+		String s = RandomGenerator.randomStringGen(100000000);
+		MyStringTokenizer st = new MyStringTokenizer(s);
 		
 		while ( st.hasMoreTokens() ){
 			
 			System.out.println( st.nextToken() );
 			
 		}
-		System.out.println( "ciao");
+		System.out.println( "_______________________________");
 	}
 	
 	

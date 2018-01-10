@@ -16,8 +16,7 @@ public class IOImplementation {
 	
 	/**
 	 * Questa funzione legge illimitate linee di testo da stdin
-	 * WARNING ogni ritorno a capo viene sostuito con uno spazio
-	 * @return stringa contente l'input
+	 * @return stringa con l'input raccolto
 	 */
 	public static String getInput(){
 		StringBuffer sb = new StringBuffer();

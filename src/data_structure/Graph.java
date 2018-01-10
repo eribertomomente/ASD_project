@@ -65,13 +65,12 @@ public class Graph {
 		}    
 		
 		for ( int i=0; i<verticesNum; i++){
-			// TODO forse dovrei vedere piuttosto se il maxPath l'ho mai modificato più che il colore... booooh
 			if (color[i] == WHITE){
 				maxPath = this.DFSVisit(i, maxPath);
 			}
 		}	
 		
-		// ritorno il max in maxPath
+		// ricerca del max in maxPath
 		int max=0;
 		for (int i=0; i<maxPath.length; i++) {
 			if (maxPath[i]>max) {
@@ -90,14 +89,14 @@ public class Graph {
 	private int[] DFSVisit(int vertex, int[] maxPath ) {
 		color[vertex] = GREY;
 		for ( int v : this.graph.elementAt(vertex) ){
-			
+			 
 			if ( color[v] == WHITE ){
 				maxPath = this.DFSVisit(v, maxPath);
 			} 
 			// aggiorno il max
 			if(maxPath[v]+1 > maxPath[vertex]) { 
 				maxPath[vertex]=maxPath[v]+1;
-				}
+			}
 		}
 		color[vertex] = BLACK;
 		return maxPath;
@@ -123,6 +122,11 @@ public class Graph {
 		return modSB.toString();
 	}
 	
+	/**
+	 * 
+	 * @param map
+	 * @return
+	 */
 	public String toString(MapStringToInt map){
 		StringBuffer s = new StringBuffer("digraph G_T {\n");
 		for ( int i = 0; i< this.graph.size(); i++){
