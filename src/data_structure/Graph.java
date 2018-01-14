@@ -48,7 +48,7 @@ public class Graph {
 	private static final int BLACK = 2;
 
 	/**
-	 * 
+	 * Visita in Profondità per il calcolo del cammino massimo
 	 * @return
 	 */
 	public int DFS_MaxPath(){
@@ -80,12 +80,6 @@ public class Graph {
 		return max;
 	}
 
-	/**
-	 * 
-	 * @param vertex
-	 * @param maxPath
-	 * @return
-	 */
 	private int[] DFSVisit(int vertex, int[] maxPath ) {
 		color[vertex] = GREY;
 		for ( int v : this.graph.elementAt(vertex) ){
@@ -103,9 +97,10 @@ public class Graph {
 	}
 
 	/**
-	 * WARNING alcuni char vengono non stampati. Non bestemmiare se si vedono parole piu corte
-	 * @param original
-	 * @return
+	 * Rimuove alcuni caratteri "scomodi" da vedere
+	 * WARNING alcuni char vengono non stampati. 
+	 * @param original parola 
+	 * @return la parola senza i caratteri scomodi
 	 */
 	private String avoidErrorChar (String original) {
 		StringBuffer modSB = new StringBuffer();
@@ -123,9 +118,9 @@ public class Graph {
 	}
 	
 	/**
-	 * 
-	 * @param map
-	 * @return
+	 * rapresentazione .dot del grafo
+	 * @param map relazione tra stringhe nodi 
+	 * @return stringa .dot 
 	 */
 	public String toString(MapStringToInt map){
 		StringBuffer s = new StringBuffer("digraph G_T {\n");
@@ -140,18 +135,6 @@ public class Graph {
 			}
 		}
 		s.append("}");
-		return s.toString();
-	}
-	
-	public String toString(){
-		StringBuffer s = new StringBuffer();
-		for ( int i = 0; i< this.graph.size(); i++){
-			s.append(String.format("%d -> ", i));
-			for ( int j = 0; j< this.graph.elementAt(i).size(); j++){
-				s.append(String.format("%d, ", this.graph.elementAt(i).elementAt(j) ));
-			}
-			s.append("\n");
-		}
 		return s.toString();
 	}
 

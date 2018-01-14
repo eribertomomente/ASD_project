@@ -1,6 +1,5 @@
 package sorting;
 
-
 import data_structure.MyList;
 
 public class SortingAlgorithm {
@@ -9,11 +8,10 @@ public class SortingAlgorithm {
 	 * MISSION: implementare un algoritmo di ordinamento di stringhe
 	 */
 	 
-
     /**
      * Implementazione di RadixSort su stringhe
-     * @param <words> lista di stringhe da ordinare
-     * 					REQUIRE:  <words> deve contenere stringhe di lunghezza uguale
+     * @param words lista di stringhe da ordinare
+     * 					REQUIRE:  words deve contenere stringhe di lunghezza uguale
      */
     public static void radixSort(MyList<String> words){
     		if (words.size() > 0) {
@@ -31,8 +29,8 @@ public class SortingAlgorithm {
 
 	/**
 	 * Implementazione di CountingSort su stringhe
-	 * @param <words> lista di stringhe da ordinare secondo la digit-esima posizione
-	 * @param <digit> parametro
+	 * @param words lista di stringhe da ordinare secondo la digit-esima posizione
+	 * @param digit parametro
 	 */
     public static void countingSort(MyList<String> words, int digit){
     
@@ -69,20 +67,6 @@ public class SortingAlgorithm {
         for (int i = 0; i < listLength; i++) {
         		words.setElementAt( output[i], i);
         }
-    }
- 
-
-
- 
- 
-    public static void main (String[] args){
-        String arr[] = {"ciao", "come", "stai", "bene", "tuuu"};
-        MyList<String> ciccio = new MyList<String>();
-        for(int i = 0; i<arr.length; i++) {
-        		ciccio.insert(arr[i]);
-        }
-        radixSort(ciccio);
-        System.out.print(ciccio.toString());
     }
 
     

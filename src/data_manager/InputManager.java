@@ -1,4 +1,4 @@
-package input_computation;
+package data_manager;
 
 import java.io.BufferedInputStream;
 import java.util.Scanner;
@@ -8,7 +8,7 @@ import data_structure.MyStringTokenizer;
 import sorting.SortingAlgorithm;
 import data_structure.MapCharToInt;
 
-public class IOImplementation {
+public class InputManager {
 	
 	/**
 	 * MISSION: implementare una classe per l'acquisizione, la gestione e l'elaborazione dell'input
@@ -46,10 +46,8 @@ public class IOImplementation {
 		MyStringTokenizer st = new MyStringTokenizer( input );
 		
 		while ( st.hasMoreTokens() ){
-			
 			String currentWord = st.nextToken();
 			int len = currentWord.length();
-		
 			words = fixMissingLists(words, len);
 		    words.elementAt(len -1).insert(currentWord);
 		}
@@ -156,42 +154,6 @@ public class IOImplementation {
 		}
 		return structure;
 	}
-	
-	
-	
-// TODO TEST check each function with empty sublist
-	
-	
 
-	public static void main(String[] args) {
-		//MyList<String> words =  listWords( getInput() ) ;
-		MyList<MyList<String>> words =  listWords( "come come ciao stai? I am eri ciao" ) ;
-		sortWords(words); 
-		deleteDuplicatedWords(words);
-	
-		System.out.println("********** WORDS DOWN HERE *************");
-		for (int i = 0; i< words.size(); i++){
-			System.out.println(words.elementAt(i));
-		}
-		
-		MapCharToInt alpha= getAlphabet(words);
-		System.out.println("********** alphabet DOWN HERE *************");
-		System.out.println( alpha.toString() );
-
-		System.out.println("********** arrays DOWN HERE *************");
-		/*
-		while( words.hasNext() ) {
-					
-			MyList<String> sub = words.getData();
-			
-			while (sub.hasNext() ) {
-				int[] s = buildWordStructure( alpha, sub.getData() );
-				System.out.println( Arrays.toString(s) );
-				sub = sub.getNext();
-			}
-			words = words.getNext();
-		}
-		*/
-	}
 
 }

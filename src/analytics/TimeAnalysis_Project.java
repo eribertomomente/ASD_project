@@ -1,21 +1,37 @@
 package analytics;
 
+import data_manager.GraphBuilder;
+import data_manager.InputManager;
 import data_structure.Graph;
 import data_structure.MapCharToInt;
 import data_structure.MapStringToInt;
 import data_structure.MyList;
-import input_computation.GraphBuilder;
-import input_computation.IOImplementation;
 
-public class TimeAnalysis_maxPath {
+public class TimeAnalysis_Project {
+	
+	
+	/**
+	 * ALGORITMO 4
+	 * @return la granularita' del sistema
+	 */
+	public static long granularity() {
 
+		long t0 = System.currentTimeMillis();
+		long t1 = System.currentTimeMillis();
+		
+		while (t1 == t0) {
+			t1 = System.currentTimeMillis();
+		}
+		return t1-t0;
+	}
+	
 	/**
 	 * ALGORITMO 5
 	 * @param d input di esecuzione
 	 * @param tMin
 	 * @return
 	 */
-	public static long calcolaRip_maxPath(int len, long tMin) {
+	public static long calcolaRip_main(int len, long tMin) {
 		long t0=0;
 		long t1=0;
 		long rip = 1;
@@ -23,7 +39,7 @@ public class TimeAnalysis_maxPath {
 			rip *= 2; // stima di rip con crescita esponenziale
 			t0 = System.currentTimeMillis();
 			for (int i=1; i <= rip; i++) {
-				maxPath(len);
+				projectMain(len);
 			}
 			t1 = System.currentTimeMillis();
 		}
@@ -37,7 +53,7 @@ public class TimeAnalysis_maxPath {
 			t0 = System.currentTimeMillis();	
 			
 			for (int i=1; i<= rip; i++) {
-				maxPath(len);
+				projectMain(len);
 			}
 			t1 = System.currentTimeMillis();
 			if ( t1-t0 <= tMin) {
@@ -90,34 +106,11 @@ public class TimeAnalysis_maxPath {
 	}
 	
 	/**
-	 * ALGORITMO 6
-	 * @param d
-	 * @param rip
-	 */
-	public static double calcoloDeiTempi( int len, long rip) {
-		long t0 = System.currentTimeMillis();
-		for (int i=1; i<=rip; i++) {
-			maxPath(len);
-		}
-		long t1 = System.currentTimeMillis();
-		long tTot = t1-t0;
-		double tSing = tTot/ (double)rip;
-		return tSing;
-	}
-	
-	/**
-	 * genera in input casuale
+	 * genera una tara casuale
 	 * @return
 	 */
-	public static Graph prepara (int charLen) {
-		String input = RandomGenerator.randomStringGen(charLen);
-		MyList<MyList<String>> words = IOImplementation.listWords( input );
-		IOImplementation.sortWords(words);
-		IOImplementation.deleteDuplicatedWords(words);
-		MapCharToInt alphabet = IOImplementation.getAlphabet(words);
-		MapStringToInt vertices = GraphBuilder.getVertices(words);
-		Graph g = GraphBuilder.buildGraph(words, alphabet, vertices);
-		return g;
+	public static String prepara (int charLen) {
+		return RandomGenerator.randomStringGen(charLen);
 	}
 	
 	/**
@@ -128,8 +121,7 @@ public class TimeAnalysis_maxPath {
 	public static double tempoMedioNetto(int len, long tMin) {
 		
 		long ripTara = calcolaRip_prepara(len, tMin);
-		long ripLordo = calcolaRip_maxPath(len, tMin);
-		ripLordo +=ripTara;
+		long ripLordo = calcolaRip_main(len, tMin);
 		
 		long t0 = System.currentTimeMillis();
 
@@ -141,8 +133,7 @@ public class TimeAnalysis_maxPath {
 		t0 = System.currentTimeMillis();
 		
 		for (int i =1; i <= ripLordo; i++) {
-			prepara(len);
-			maxPath(len);
+			projectMain(len);
 		}
 		
 		t1 = System.currentTimeMillis();
@@ -186,37 +177,46 @@ public class TimeAnalysis_maxPath {
 	 * Funzione principale da analizzarne la complessita'
 	 * @param inputLength
 	 */
-	public static void maxPath(int inputLength) {
+	public static void projectMain(int inputLength) {		
 		String input = RandomGenerator.randomStringGen(inputLength);
-		MyList<MyList<String>> words = IOImplementation.listWords( input );
-		IOImplementation.sortWords(words);
-		IOImplementation.deleteDuplicatedWords(words);
-		MapCharToInt alphabet = IOImplementation.getAlphabet(words);
+
+		/* gestione dell'input */
+		MyList<MyList<String>> words = InputManager.listWords(input);
+		InputManager.sortWords(words);
+		InputManager.deleteDuplicatedWords(words);
+		
+		/* Costruzione del grafo */
+		MapCharToInt alphabet = InputManager.getAlphabet(words);
 		MapStringToInt vertices = GraphBuilder.getVertices(words);
 		Graph g = GraphBuilder.buildGraph(words, alphabet, vertices);
+		
+		/* Calcolo del cammino massimo */
 		g.DFS_MaxPath();
+		
+		/* stampa in formato .dot */
+		g.toString(vertices);
 	}
 	
 
-	public static void main(int startingInputLength, int iterations, int increment) {
+	public static void timeAnalysis(int startingInputLength, int iterations, int increment) {
 		
-		System.out.println("**** MISURAZIONE MAX PATH ****");
+		System.out.println("**** MISURAZIONE MAIN ****");
 		
 		int inputLength = startingInputLength;
 		for (int i =0; i< iterations; i++) {
 			
-			long tMin = (long) (TimeAnalysis.granularity()/0.05);
+			long tMin = (long) (granularity()/0.05);
 			double medio = tempoMedioNetto(inputLength, tMin);
 			
 			double Delta = medio/10;
 			double[] res = misurazione(inputLength, tMin, Delta);
 			
-			System.out.println(res[0]);
+			System.out.println(res[0]+ "\t" + res[1]);
 			inputLength += increment;
 		}
 		
 		System.out.println("\n");
 	}
-
+	
 
 }

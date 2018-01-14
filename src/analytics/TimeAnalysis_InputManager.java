@@ -1,7 +1,7 @@
 package analytics;
 
+import data_manager.InputManager;
 import data_structure.MyList;
-import input_computation.IOImplementation;
 
 public class TimeAnalysis_InputManager {
 	
@@ -20,7 +20,7 @@ public class TimeAnalysis_InputManager {
 			rip *= 2; // stima di rip con crescita esponenziale
 			t0 = System.currentTimeMillis();
 			for (int i=1; i <= rip; i++) {
-				inputManagement(len);
+				inputManager(len);
 			}
 			t1 = System.currentTimeMillis();
 		}
@@ -34,7 +34,7 @@ public class TimeAnalysis_InputManager {
 			t0 = System.currentTimeMillis();	
 			
 			for (int i=1; i<= rip; i++) {
-				inputManagement(len);
+				inputManager(len);
 			}
 			t1 = System.currentTimeMillis();
 			if ( t1-t0 <= tMin) {
@@ -87,22 +87,6 @@ public class TimeAnalysis_InputManager {
 	}
 	
 	/**
-	 * ALGORITMO 6
-	 * @param d
-	 * @param rip
-	 */
-	public static double calcoloDeiTempi( int len, long rip) {
-		long t0 = System.currentTimeMillis();
-		for (int i=1; i<=rip; i++) {
-			inputManagement(len);
-		}
-		long t1 = System.currentTimeMillis();
-		long tTot = t1-t0;
-		double tSing = tTot/ (double)rip;
-		return tSing;
-	}
-	
-	/**
 	 * genera in input casuale
 	 * @return
 	 */
@@ -119,7 +103,6 @@ public class TimeAnalysis_InputManager {
 		
 		long ripTara = calcolaRip_prepara(len, tMin);
 		long ripLordo = calcolaRip_InputManagement(len, tMin);
-		ripLordo +=ripTara;
 		
 		long t0 = System.currentTimeMillis();
 
@@ -131,8 +114,7 @@ public class TimeAnalysis_InputManager {
 		t0 = System.currentTimeMillis();
 		
 		for (int i =1; i <= ripLordo; i++) {
-			prepara(len);
-			inputManagement(len);
+			inputManager(len);
 		}
 		
 		t1 = System.currentTimeMillis();
@@ -176,28 +158,30 @@ public class TimeAnalysis_InputManager {
 	 * Funzione principale da analizzarne la complessita'
 	 * @param inputLength
 	 */
-	public static void inputManagement(int inputLength) {
+	public static void inputManager(int inputLength) {
 		String input = RandomGenerator.randomStringGen(inputLength);
-		MyList<MyList<String>> words = IOImplementation.listWords( input );
-		IOImplementation.sortWords(words);
-		IOImplementation.deleteDuplicatedWords(words);
+
+		/* gestione dell'input */
+		MyList<MyList<String>> words = InputManager.listWords(input);
+		InputManager.sortWords(words);
+		InputManager.deleteDuplicatedWords(words);
 	}
 	
 
-	public static void main(int startingInputLength, int iterations, int increment) {
+	public static void timeAnalysis(int startingInputLength, int iterations, int increment) {
 		
-		System.out.println("**** MISURAZIONE INPUT MANAGEMENT ****");
+		System.out.println("**** MISURAZIONE INPUT MANAGER ****");
 		
 		int inputLength = startingInputLength;
 		for (int i =0; i< iterations; i++) {
 			
-			long tMin = (long) (TimeAnalysis.granularity()/0.05);
+			long tMin = (long) (TimeAnalysis_Project.granularity()/0.05);
 			double medio = tempoMedioNetto(inputLength, tMin);
 			
 			double Delta = medio/10;
 			double[] res = misurazione(inputLength, tMin, Delta);
 			
-			System.out.println(res[0]);
+			System.out.println(res[0] + "\t" + res[1]);
 			inputLength += increment;
 		}
 		

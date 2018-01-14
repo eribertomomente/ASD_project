@@ -1,7 +1,5 @@
 package analytics;
 
-import data_structure.MyList;
-
 /**
  * Classe che genera numeri casuali,
  * migliore del random di sistema
@@ -35,7 +33,7 @@ public class RandomGenerator {
 	public double get() {
 	
 	   // Costanti
-	   final int a = 16087;
+	   final int a = 16807;
 	   final int m = 2147483647;
 	   final int q = 127773;
 	   final int r = 2836;
@@ -52,29 +50,6 @@ public class RandomGenerator {
 	      seed = test;
 	   }
 	   return seed / m;
-	}
-	
-	// TODO modificare in funzione dei chars non delle parole
-	public static String randomWordsGen (int number){
-
-		   RandomGenerator r = new RandomGenerator(23456789);
-		   StringBuffer sb =  new StringBuffer();
-		   
-		   for (int i = 0; i < number; i++) {
-			   int wordLength = (int) Math.round(r.get() * 10); // 0 <= length < 10
-			   
-			   for (int j =0; j<wordLength; j++) {
-				   // TODO considerare tutti i 256 chars
-				   long n = (Math.round(r.get()*(128-33))+33); // elimino i primi 33 char di controllo + lo spazio TODO is right?
-//				   while (n == 127 || n == 255 || n == 135 || n == 133){ // 127 represents "delete", 255 "no-breaking space", 135,133 TODO
-				   while (n == 127) {
-					   n=(Math.round(r.get()*(256-33))+33);
-				   }
-				   sb.append((char)n);
-			   }
-			  sb.append(" ");
-		   }
-		   return sb.toString();
 	}
 	
 	private static int getSeed() {
@@ -103,14 +78,6 @@ public class RandomGenerator {
 		   }
 		   return sb.toString();
 		   
-	}
-
-
-	// esempio di uso della classe RandomGenerator,
-	// stampa 10 numeri casuali compresi tra 1 e 100
-	public static void main(String[] args) {
-
-	   System.out.println(randomStringGen(100));
 	}
 
 }

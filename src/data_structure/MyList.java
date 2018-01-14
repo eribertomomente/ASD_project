@@ -9,9 +9,9 @@ public class MyList<T> implements Iterable<T> {
 	 * MISSION: 	Questa classe è l'implementazione dell'analoga classe Java: Vector.
 	 * 					MyList è mutable e senza limite (unbounded)
 	 * 
-	 * FUNZIONE DI ASTRAZIONE:  MyList viene implementata con <list> un array di Object e <size> un intero che conta gli elementi inseriti.
-	 * 												<list> ha una dimensione predefinita di 32 elementi.
-	 * 												Ogni volta che si supera la capacità di <list> essa viene riallocata con una capacità aggiuntiva del 50 per cento.
+	 * FUNZIONE DI ASTRAZIONE:  MyList viene implementata con list un array di Object e size un intero che conta gli elementi inseriti.
+	 * 												list ha una dimensione predefinita di 32 elementi.
+	 * 												Ogni volta che si supera la capacità di list essa viene riallocata con una capacità aggiuntiva del 50 per cento.
 	 */	
 	
 	private Object[] list;
@@ -27,7 +27,7 @@ public class MyList<T> implements Iterable<T> {
 	
 	/**
 	 * inserisce un nuovo elemento 
-	 * @param <value> elemento da inserire
+	 * @param value elemento da inserire
 	 */
 	public void insert (T value) {
 		if ( this.size == this.list.length ) {
@@ -42,9 +42,9 @@ public class MyList<T> implements Iterable<T> {
 	}
 	
 	/**
-	 * Sostituisce l’elemento alla posizione <index> con <el>
-	 * @param <el> nuovo elemento
-	 * @param <index> posizione 
+	 * Sostituisce l’elemento alla posizione index con el
+	 * @param el nuovo elemento
+	 * @param index posizione 
 	 */
 	public void setElementAt(T el, int index) {
 		if (index>=this.size || index < 0) {
@@ -61,8 +61,8 @@ public class MyList<T> implements Iterable<T> {
 	}
 	
 	/**
-	 * @param <value> elemento 
-	 * @return indice di <value> in <this>
+	 * @param value elemento 
+	 * @return indice di value in this
 	 */
 	@SuppressWarnings("unchecked")
 	public int getIndex (T value) {
@@ -86,8 +86,8 @@ public class MyList<T> implements Iterable<T> {
 	}
 	
 	/**
-	 * @param <index>
-	 * @return elemento alla posizione <index>
+	 * @param index
+	 * @return elemento alla posizione index
 	 */
 	@SuppressWarnings("unchecked")
 	public T elementAt(int index) {
@@ -96,22 +96,8 @@ public class MyList<T> implements Iterable<T> {
 		}
 		return (T) this.list[index];
 	}
-		
-	public String toString() {
-		StringBuilder sb = new StringBuilder("[");
-		for (int i = 0; i < this.size-1; i++) {
-			sb.append(this.list[i]);
-			sb.append(", ");
-		}
-		sb.append(this.list[this.size-1]);
-		sb.append("]");
-		
-		return sb.toString();
-			
-	}
 
 
-	// TODO togliere questo
 	@Override
     public Iterator<T> iterator() {
         return new MyIterator();
@@ -143,18 +129,6 @@ public class MyList<T> implements Iterable<T> {
             throw new UnsupportedOperationException();
         }
     }
-    
-public static void main(String[] args) {
-		
-	String s ="";
-	for (int i = 0; i < s.length(); i++) {
-		System.out.print(s.charAt(i) + "_" + (int)s.charAt(i));
-	}
-
-		System.out.println( "fine");
-		
-		
-	}
 
 
 	

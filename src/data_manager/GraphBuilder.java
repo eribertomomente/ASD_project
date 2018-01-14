@@ -1,4 +1,4 @@
-package input_computation;
+package data_manager;
 
 import data_structure.Graph;
 import data_structure.MapCharToInt;
@@ -96,8 +96,8 @@ public class GraphBuilder {
 						for (String s2 : words.elementAt(j)) {
 							if (s2 != null) {
 							
-								int[] struct1 = IOImplementation.buildWordStructure( alphabet, s1);
-								int[] struct2 = IOImplementation.buildWordStructure( alphabet, s2);
+								int[] struct1 = InputManager.buildWordStructure( alphabet, s1);
+								int[] struct2 = InputManager.buildWordStructure( alphabet, s2);
 								
 								if ( areInRelation(struct1, struct2) ) {							
 									int startingVertex = map.getIndex(s1);

@@ -1,9 +1,5 @@
 package data_structure;
 
-import java.util.StringTokenizer;
-
-import analytics.RandomGenerator;
-
 public class MyStringTokenizer {
 	
 	/**
@@ -23,10 +19,10 @@ public class MyStringTokenizer {
 	 */
 	public MyStringTokenizer(String str) {
 		
-		int count=1; // stima del numero di parole in str 
+		int count=0; // stima del numero di parole in str 
 		for (int i = 1; i <str.length(); i++) {
 			if(		(str.charAt(i - 1) != ' ' && str.charAt(i) == ' ') ||
-					(i == str.length() - 1 && str.charAt(i) != ' ')) {
+					(i == (str.length() - 1) && str.charAt(i) != ' ')) {
 				count++;
 			}
 		}
@@ -39,7 +35,7 @@ public class MyStringTokenizer {
 		
 		// finche' non ho raccolto tutte le parole
 		// e finche' non ho scandito tutti i caratteri
-		while (i<count && j<str.length()) {
+		while ( j<str.length() ) {
 			// se il carattere non è uno spazio lo aggiungo nel buffer
 			if(str.charAt(j) != ' ') {
 				// salvo la lettere nel buffer
@@ -55,11 +51,11 @@ public class MyStringTokenizer {
 		}
 
 		// controllo per quale condizione ero uscito dal while
-		if ( j==str.length() ) {
+		if (str.charAt(str.length() - 1) != ' ') {
 			// salvo anche l'ultima parola rimasta nel buffer
 			this.words[i] = buffer.toString();
 		}
-		
+
 		this.index=0;
 	}
 	
@@ -79,25 +75,9 @@ public class MyStringTokenizer {
 	 * @return l'index-esimo token
 	 */
 	public String nextToken() {
-		return this.words[this.index++];
+		String res =  this.words[this.index];
+		this.index++;
+		return res;
 	}
-	
-	public static void main(String[] args) {
-//		StringTokenizer st = new StringTokenizer("ciao mi chiamo paul e non so programmare.");
-//		while (q.hasMoreTokens()) {
-//			String s = q.nextToken();
-//		}
-		String s = RandomGenerator.randomStringGen(100000000);
-		MyStringTokenizer st = new MyStringTokenizer(s);
-		
-		while ( st.hasMoreTokens() ){
-			
-			System.out.println( st.nextToken() );
-			
-		}
-		System.out.println( "_______________________________");
-	}
-	
-	
 
 }
